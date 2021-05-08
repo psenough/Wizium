@@ -133,11 +133,11 @@ void Dictionary::Clear ()
 	for (int i = 0; i < this->maxWordSize; i ++) vRootNodes [i] = NewWordNode ();
 	
 	// Add all '1 letter' words
-	for (uint8_t i = 1; i <= alphabetSize; i ++ )
+	/*for (uint8_t i = 1; i <= alphabetSize; i ++ )
 	{
 		w [0] = i;
 		AddEntry (w);
-	}
+	}*/
 }
 
 
@@ -479,6 +479,14 @@ int32_t Dictionary::AddEntries (const uint8_t* tabEntries, int32_t entrySize, in
 				if (word [idx] >= 'A' && word [idx] <= 'Z') word [idx] += 1 - 'A';
 				if (word [idx] >= 'a' && word [idx] <= 'z') word [idx] += 1 - 'a';
 			}
+			if (alphabetSize == 36)
+			{
+				//if (word[idx] >= '0' && word[idx] <= '9') word[idx] += 1 - '0';
+				if (word[idx] >= 'A' && word[idx] <= 'Z') word[idx] += 1 - 'A';
+				if (word[idx] >= 'a' && word[idx] <= 'z') word[idx] += 1 - 'a';
+				if (word[idx] >= '0' && word[idx] <= '9') word[idx] += 1 - '0' + 26;
+			}
+
 			
 			// Check we are in the range [1..alphabetSize], or stop
 			if (word [idx] >= 1 && word [idx] <= this->alphabetSize && idx < MAX_WORD_LENGTH) idx ++;
@@ -563,6 +571,12 @@ int Dictionary::ProcessEntry (const uint8_t* entry, uint8_t* out) const
 		{
 			if (entry [idx] >= 'A' && entry [idx] <= 'Z') out [idx] += 1 - 'A';
 			if (entry [idx] >= 'a' && entry [idx] <= 'z') out [idx] += 1 - 'a';
+		}
+		if (alphabetSize == 36)
+		{
+			if (entry[idx] >= 'A' && entry[idx] <= 'Z') out[idx] += 1 - 'A';
+			if (entry[idx] >= 'a' && entry[idx] <= 'z') out[idx] += 1 - 'a';
+			if (entry[idx] >= '0' && entry[idx] <= '9') out[idx] += 1 - '0' + 26;
 		}
 		if (out [idx] > this->alphabetSize) out [idx] = WILDCARD;
 	}

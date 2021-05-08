@@ -419,7 +419,7 @@ class Wizium:
 
 
 	# ============================================================================
-	def _wiz_create_instance (self, alphabet_size=0, max_word_length=20):
+	def _wiz_create_instance (self, alphabet_size=36, max_word_length=20):
 	# ============================================================================
 
 		config = Wizium.Config ()

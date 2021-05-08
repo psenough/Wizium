@@ -36,8 +36,8 @@ if platform.system()=='Linux':
 else:
     PATH = './../../Binaries/Windows/libWizium_x64.dll'
 
-DICO_PATH = './../../Dictionaries/Fr_Simple.txt'
-
+#DICO_PATH = './../../Dictionaries/Fr_Simple.txt'
+DICO_PATH = 'C:/Users/Filipe Cruz/Downloads/pouetdatadump-prods-20210421.json/all_outline_prods.dic'
 
 # ============================================================================
 def draw (wiz):
@@ -107,7 +107,7 @@ def load_dictionary (wiz, dico_path):
         words = f.readlines ()
 
     # Remove what is not a letter, if any
-    words = [re.sub('[^a-zA-Z]+', '', s) for s in words]
+    words = [re.sub('[^a-zA-Z0-9]+', '', s) for s in words]
   
     # Load dictionary
     wiz.dic_clear ()
@@ -133,12 +133,12 @@ def solve (wiz, max_black=0, heuristic_level=0, seed=0):
     if not seed: seed = random.randint(1, 1000000)
 
     # Configure the solver
-    wiz.solver_start (seed=seed, black_mode='DIAG', max_black=max_black, heuristic_level=heuristic_level)
+    wiz.solver_start (seed=seed, black_mode='ANY', max_black=max_black, heuristic_level=heuristic_level)
     tstart = time.time ()
     
     # Solve with steps of 500ms max, in order to draw the grid content evolution
     while True:
-        status = wiz.solver_step (max_time_ms=500) 
+        status = wiz.solver_step (max_time_ms=500)
 
         draw (wiz)
         print (status)
@@ -148,6 +148,8 @@ def solve (wiz, max_black=0, heuristic_level=0, seed=0):
             break
         if status.fillRate == 0: 
             print ("FAILED !")
+            #wiz.solver_start (seed=random.randint(1, 1000000), black_mode='ANY', max_black=max_black, heuristic_level=heuristic_level)
+            #tstart = time.time ()
             break
     
     # Ensure to release grid content
@@ -163,7 +165,7 @@ def solve (wiz, max_black=0, heuristic_level=0, seed=0):
 # ============================================================================
 
 # -->  C H O O S E  <--
-EXAMPLE = 1
+EXAMPLE = 4
 
 # Create a Wizium instance
 wiz = Wizium (os.path.join (os.getcwd (), PATH))
@@ -186,28 +188,129 @@ elif EXAMPLE == 2:
 # Need 24e+9 tests in the worst case, which may take ~10hours
 elif EXAMPLE == 3:
 
-    # Add the missing words needed to be able to solve the grid
-    words = ['REABRASES',
-        'ENCRENENT',
-        'OCTOCORDE',
-        'CHICORIUM',
-        'RAVAUDERA',
-        'EPARTIRAS',
-        'RENIERONS',
-        'ALTERANTE',
-        'SASSASSES',
-        'REOCRERAS',
-        'ENCHAPELA',
-        'ACTIVANTS',
-        'BROCARIES',
-        'RECOUTERA',
-        'ANORDIRAS',
-        'SERIERONS',
-        'ENDURANTE',
-        'STEMASSES',]    
-    wiz.dic_add_entries (words)
+    wiz.grid_set_size (15,17)
+
+    wiz.grid_set_box (4,  0, 'BLACK')
+    wiz.grid_set_box (4,  1, 'BLACK')
+    wiz.grid_set_box (10, 1, 'BLACK')
+    wiz.grid_set_box (11, 1, 'BLACK')
+    wiz.grid_set_box (12, 1, 'BLACK')
+    wiz.grid_set_box (13, 1, 'BLACK')
+    wiz.grid_set_box (9,  2, 'BLACK')
+    wiz.grid_set_box (10, 2, 'BLACK')
+    wiz.grid_set_box (14, 2, 'BLACK')
+    wiz.grid_set_box (5,  3, 'BLACK')
+    wiz.grid_set_box (6,  3, 'BLACK')
+    wiz.grid_set_box (8,  3, 'BLACK')	
+    wiz.grid_set_box (9,  3, 'BLACK')
+    wiz.grid_set_box (14, 3, 'BLACK')
+    wiz.grid_set_box (0,  4, 'BLACK')
+    wiz.grid_set_box (1,  4, 'BLACK')
+    wiz.grid_set_box (5,  4, 'BLACK')
+    wiz.grid_set_box (6,  4, 'BLACK')
+    wiz.grid_set_box (8,  4, 'BLACK')	
+    wiz.grid_set_box (13, 4, 'BLACK')	
+    wiz.grid_set_box (3,  5, 'BLACK')
+    wiz.grid_set_box (4,  5, 'BLACK')
+    wiz.grid_set_box (7,  5, 'BLACK')
+    wiz.grid_set_box (8,  5, 'BLACK')
+    wiz.grid_set_box (12, 5, 'BLACK')	
+    wiz.grid_set_box (14, 5, 'BLACK')		
+    wiz.grid_set_box (3,  6, 'BLACK')
+    wiz.grid_set_box (4,  6, 'BLACK')
+    wiz.grid_set_box (6,  6, 'BLACK')
+    wiz.grid_set_box (7,  6, 'BLACK')
+    wiz.grid_set_box (9,  6, 'BLACK')
+    wiz.grid_set_box (11, 6, 'BLACK')	
+    wiz.grid_set_box (13, 6, 'BLACK')		
+    #wiz.grid_set_box (1,  7, 'BLACK')
+    #wiz.grid_write (0,7, 'outline2021', 'H', add_block=True)
+    #wiz.grid_write (9,7, '2021', 'H', add_block=True)
+    wiz.grid_set_box (5,  7, 'BLACK')
+    wiz.grid_set_box (6,  7, 'BLACK')
+    wiz.grid_set_box (8,  7, 'BLACK')
+    wiz.grid_set_box (9,  7, 'BLACK')
+    wiz.grid_set_box (10, 7, 'BLACK')
+    wiz.grid_set_box (3,  8, 'BLACK')
+    wiz.grid_set_box (4,  8, 'BLACK')
+    wiz.grid_set_box (5,  8, 'BLACK')
+    wiz.grid_set_box (7,  8, 'BLACK')
+    wiz.grid_set_box (9,  8, 'BLACK')
+    wiz.grid_set_box (11, 8, 'BLACK')	
+    wiz.grid_set_box (12, 8, 'BLACK')	
+    wiz.grid_set_box (2,  9, 'BLACK')
+    wiz.grid_set_box (3,  9, 'BLACK')
+    wiz.grid_set_box (6,  9, 'BLACK')
+    wiz.grid_set_box (7,  9, 'BLACK')
+    wiz.grid_set_box (8,  9, 'BLACK')	
+    wiz.grid_set_box (9,  9, 'BLACK')
+    wiz.grid_set_box (10, 9, 'BLACK')
+    wiz.grid_set_box (11, 9, 'BLACK')	
+    wiz.grid_set_box (12, 9, 'BLACK')	
+    wiz.grid_set_box (13, 9, 'BLACK')
+    wiz.grid_set_box (1,  10, 'BLACK')
+    wiz.grid_set_box (2,  10, 'BLACK')
+    wiz.grid_set_box (7,  10, 'BLACK')
+    wiz.grid_set_box (9,  10, 'BLACK')
+    wiz.grid_set_box (10, 10, 'BLACK')
+    wiz.grid_set_box (1,  11, 'BLACK')
+    wiz.grid_set_box (6,  11, 'BLACK')
+    wiz.grid_set_box (8,  11, 'BLACK')
+    wiz.grid_set_box (9,  11, 'BLACK')	
+    wiz.grid_set_box (11, 11, 'BLACK')
+    wiz.grid_set_box (12, 11, 'BLACK')
+    wiz.grid_set_box (13, 11, 'BLACK')	
+    wiz.grid_set_box (14, 11, 'BLACK')	
+    wiz.grid_set_box (1,  12, 'BLACK')
+    wiz.grid_set_box (5,  12, 'BLACK')
+    wiz.grid_set_box (8,  12, 'BLACK')	
+    wiz.grid_set_box (9,  12, 'BLACK')
+    wiz.grid_set_box (11, 12, 'BLACK')
+    wiz.grid_set_box (12, 12, 'BLACK')
+    wiz.grid_set_box (1,  13, 'BLACK')
+    wiz.grid_set_box (4,  13, 'BLACK')
+    wiz.grid_set_box (6,  13, 'BLACK')	
+    wiz.grid_set_box (9,  13, 'BLACK')
+    wiz.grid_set_box (11, 13, 'BLACK')
+    wiz.grid_set_box (13, 13, 'BLACK')
+    wiz.grid_set_box (14, 13, 'BLACK')
+    wiz.grid_set_box (2,  14, 'BLACK')
+    wiz.grid_set_box (3,  14, 'BLACK')
+    wiz.grid_set_box (5,  14, 'BLACK')	
+    wiz.grid_set_box (11, 14, 'BLACK')
+    wiz.grid_set_box (13, 14, 'BLACK')
+
+    wiz.grid_set_box (0,  16, 'BLACK')
+    wiz.grid_write (1, 16, 'outline', 'H', add_block=True)
+    wiz.grid_set_box (9,  16, 'BLACK')
+    wiz.grid_write (10, 16, '2021', 'H', add_block=True)
+
+    solve (wiz, max_black=16, heuristic_level=2)
+
+
+elif EXAMPLE == 4:
+
+    wiz.grid_set_size (5,6)
+
+    wiz.grid_set_box (4,  0, 'BLACK')
+    #wiz.grid_write (0, 0, '4mat', 'H')
+
+    wiz.grid_set_box (4,  1, 'BLACK')
+    #wiz.grid_write (0, 0, 'midi', 'H')
     
-    wiz.grid_set_size (9,9)
-    solve (wiz, max_black=0, heuristic_level=0)
+    wiz.grid_write (3, 0, 'titan', 'V')
+	
+    wiz.grid_write (4, 2, 'atd', 'V')
+
+    wiz.grid_write (0, 5, 'rom', 'H')
+
+    wiz.grid_set_box (0,  4, 'BLACK')
+    wiz.grid_set_box (1,  4, 'BLACK')
+    
+    wiz.grid_set_box (3,  5, 'BLACK')
+    wiz.grid_set_box (4,  5, 'BLACK')
+    wiz.grid_set_box (5,  5, 'BLACK')
+
+    solve (wiz, max_black=5, heuristic_level=2)
 
 exit ()

@@ -158,7 +158,16 @@ bool Library::FindDictionaryEntry (Module* module, uint8_t* result, const uint8_
 		if (dico.AlphabetSize () == 26)
 		{
 			int len = 0;
-			while (result [len] != 0) result [len++] += 'A' - 1;
+			while (result [len] != 0) result [len++] += 'a' - 1;
+		}
+
+		if (dico.AlphabetSize() == 36)
+		{
+			int len = 0;
+			while (result[len] != 0) {
+				if (result[len] <= 26) result[len++] += 'a' - 1;
+				else result[len++] += '0' - 1;
+			}
 		}
 		return true;
 	}
@@ -186,7 +195,15 @@ bool Library::FindRandomDictionaryEntry (Module* module, uint8_t* result, const 
 		if (dico.AlphabetSize () == 26)
 		{
 			int len = 0;
-			while (result [len] != 0) result [len++] += 'A' - 1;
+			while (result [len] != 0) result [len++] += 'a' - 1;
+		}
+		if (dico.AlphabetSize() == 36)
+		{
+			int len = 0;
+			while (result[len] != 0) {
+				if (result[len] <= 26) result[len++] += 'a' - 1;
+				else result[len++] += '0' - 1;
+			}
 		}
 		return true;
 	}
@@ -285,6 +302,12 @@ void Library::WriteGrid (Module* module, uint8_t x, uint8_t y, const uint8_t ent
 			if (val >= 'A' && val <= 'Z') val += 1 - 'A';
 			if (val >= 'a' && val <= 'z') val += 1 - 'a';
 		}
+		if (dico.AlphabetSize() == 36)
+		{
+			if (val >= 'A' && val <= 'Z') val += 1 - 'A';
+			if (val >= 'a' && val <= 'z') val += 1 - 'a';
+			if (val >= '0' && val <= '9') val += 1 - '0' + 26;
+		}
 
 		if (val > dico.AlphabetSize ()) break;
 		mgrid (x, y)->MakeLetter ();
@@ -327,7 +350,12 @@ void Library::ReadGrid (Module* module, uint8_t grid[])
 			if (box->IsLetter ())
 			{
 				uint8_t val = box->GetLetter ();
-				if (alphaSize == 26) grid [j * w + i] = val > 0 ? (val + 'A' - 1) : '.';
+				if (alphaSize == 26) grid [j * w + i] = val > 0 ? (val + 'a' - 1) : '.';
+				if (alphaSize == 36) {
+					if ((val>0) && (val <= 26)) grid[j * w + i] = (val + 'a' - 1);
+					else if ((val> 26) && (val <= 36)) grid[j * w + i] = (val - 26 + '0' - 1);
+					else grid[j * w + i] = '.';
+				}
 				else grid [j * w + i] = val;
 			}
 			else if (box->IsBloc ()) grid [j * w + i] = '#';

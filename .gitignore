@@ -41,3 +41,7 @@
 # *.exe
 *.out
 *.app
+Projects/VS2017/UpgradeLog.htm
+Projects/VS2017/x64/Debug/
+Projects/VS2017/x64/Release/
+Wrappers/Python/__pycache__/libWizium.cpython-39.pyc
