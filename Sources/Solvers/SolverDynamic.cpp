@@ -27,7 +27,6 @@
 #include "Solvers/SolverDynamic.h"
 #include "Solvers/SolverDynamic.DynamicItem.h"
 
-
 // ###########################################################################
 //
 // P U B L I C
@@ -464,7 +463,7 @@ bool SolverDynamic::ChangeItem (DynamicItem *pItem, bool changeLength, int colTo
 
 // ===========================================================================
 /// \brief	Find a new word solution for a given item on the grid. It must have the required
-///			length, it must match the letter on the grid and respect the letter candiates
+///			length, it must match the letter on the grid and respect the letter candidates
 ///
 /// \param			pItem			Target item
 /// \param			mask			Mask giving the grid content at the 'pItem' position. 
@@ -526,7 +525,11 @@ bool SolverDynamic::ChangeItemWord (DynamicItem *pItem, uint8_t mask [], int unv
 			(pDict->Compare (pItem->word, pItem->firstWord) >= 0)) return false;
 
 		// Check the word is not already on the grid
-		/// \todo
+		if (CheckDupe(pItem) == true) {
+			//printf("%u %u already exists\n", pItem->word[0], pItem->word[1]);
+			//CheckDupe(pItem);
+			return false;
+		}
 
 		// All conditions match
 		break;
@@ -958,6 +961,32 @@ SolverDynamic::DynamicItem* SolverDynamic::GetLastItem ()
 	return p;
 }
 
+// ===========================================================================
+/// \brief	Check if word was already used
+// ===========================================================================
+bool SolverDynamic::CheckDupe(DynamicItem *pTest)
+{
+	DynamicItem* p = pItemList;
+
+	if ((p != nullptr) && (pTest != nullptr)) {
+		while (p->pNext != nullptr) {
+			uint64_t bcnt = 0;
+			bool issame = true;
+			while ((bcnt < sizeof(pTest->word)) && (issame == true)) {
+				if (pTest->word[bcnt] == 0) break;
+				if (p->word[bcnt] != pTest->word[bcnt]) issame = false;
+				bcnt++;
+			}
+			if (issame == true) return true;
+			
+			//if (memcmp(&(p->word), &(pTest->word), sizeof(p->word)) == 0) return true;
+
+			p = p->pNext;
+		}
+	}
+
+	return false;
+}
 
 // ===========================================================================
 /// \brief	Add a word to the backtracking list in case of successful placement

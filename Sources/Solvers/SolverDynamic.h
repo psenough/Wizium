@@ -72,6 +72,7 @@ private:
 
 	DynamicItem* RemoveLastItem ();
 	DynamicItem* GetLastItem ();
+	bool CheckDupe(DynamicItem *pTest);
 	void AddItem (DynamicItem* pItem);
 
 

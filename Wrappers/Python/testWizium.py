@@ -35,9 +35,10 @@ if platform.system()=='Linux':
     PATH = './../../Binaries/Linux/libWizium.so'
 else:
     PATH = './../../Binaries/Windows/libWizium_x64.dll'
-
+    #PATH = './../../Projects/VS2017/x64/Debug/libWizium.dll'
+    
 #DICO_PATH = './../../Dictionaries/Fr_Simple.txt'
-DICO_PATH = 'C:/Users/Filipe Cruz/Downloads/pouetdatadump-prods-20210421.json/all_outline_prods.dic'
+DICO_PATH = 'C:/Users/Filipe Cruz/Documents/assisted_performer/all_prods.dic'
 
 # ============================================================================
 def draw (wiz):
@@ -118,6 +119,7 @@ def load_dictionary (wiz, dico_path):
     print (" - added: ", n)
     print (" - final: ", wiz.dic_gen_num_words ())
 
+    #input("Press Enter to continue...")
 
 # ============================================================================
 def solve (wiz, max_black=0, heuristic_level=0, seed=0):
@@ -165,7 +167,7 @@ def solve (wiz, max_black=0, heuristic_level=0, seed=0):
 # ============================================================================
 
 # -->  C H O O S E  <--
-EXAMPLE = 4
+EXAMPLE = 5
 
 # Create a Wizium instance
 wiz = Wizium (os.path.join (os.getcwd (), PATH))
@@ -285,7 +287,7 @@ elif EXAMPLE == 3:
     wiz.grid_set_box (9,  16, 'BLACK')
     wiz.grid_write (10, 16, '2021', 'H', add_block=True)
 
-    solve (wiz, max_black=16, heuristic_level=2)
+    solve (wiz, max_black=26, heuristic_level=2)
 
 
 elif EXAMPLE == 4:
@@ -312,5 +314,19 @@ elif EXAMPLE == 4:
     wiz.grid_set_box (5,  5, 'BLACK')
 
     solve (wiz, max_black=5, heuristic_level=2)
+
+
+elif EXAMPLE == 5:
+
+    wiz.grid_set_size (16,16)
+    
+    wiz.grid_write (0, 1, 'evoke', 'H', add_block=True)
+    wiz.grid_write (2, 0, 'nova', 'V', add_block=True)
+    wiz.grid_write (10, 0, 'saudade', 'V', add_block=True)
+    wiz.grid_write (0, 12, 'tmr', 'H', add_block=True)
+    wiz.grid_write (0, 15, 'konsum', 'H', add_block=True)
+    wiz.grid_write (14, 0, '5711', 'V', add_block=True)
+    
+    solve (wiz, max_black=120, heuristic_level=16)
 
 exit ()

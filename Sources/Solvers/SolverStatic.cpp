@@ -216,7 +216,7 @@ Status SolverStatic::Solve_Step (int32_t maxTimeMs, int32_t maxSteps)
 void SolverStatic::BackTrack ()
 {
 	unsigned int counter;
-	uint8_t mask[MAX_GRID_SIZE + 1];
+//	uint8_t mask[MAX_GRID_SIZE + 1];
 
 	// The first word we change must have direct interaction with the point of failure
 	int targetCol = items [idxCurrentItem].posX + items [idxCurrentItem].bestPos + 1;
@@ -460,6 +460,7 @@ bool SolverStatic::ChangeItemWord (StaticItem &item, uint8_t mask [], int unvali
 
 		// Check the word is not already on the grid (TODO)
 		//if (item.length > 1);
+		printf("static\n");
 
 		// All conditions match
 		break;

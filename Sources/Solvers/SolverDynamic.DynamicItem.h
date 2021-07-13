@@ -53,12 +53,12 @@ public:
 
 public:
 
-	uint8_t word [MAX_WORD_LENGTH + 1];		///< Word content	
-	uint8_t firstWord [MAX_WORD_LENGTH + 1];///< Initial word content (firt try)
+	uint8_t word [MAX_WORD_LENGTH + 1];		///< Word content
+	uint8_t firstWord [MAX_WORD_LENGTH + 1];///< Initial word content (first try)
 	int length;								///< Length
 	int lengthFirstWord;					///< Length of the first word we tried
 	int bestPos;							///< Index of the best letter that could be validated
-	bool isBlock;							///< This object is a bloc
+	bool isBlock;							///< This object is a block
 	uint8_t posX, posY;						///< Position on grid
 
 	LetterCandidates candidates [MAX_WORD_LENGTH];	///< Possible letters at each position of the grid
