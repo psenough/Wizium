@@ -526,8 +526,8 @@ bool SolverDynamic::ChangeItemWord (DynamicItem *pItem, uint8_t mask [], int unv
 
 		// Check the word is not already on the grid
 		if (CheckDupe(pItem) == true) {
-			//printf("%u %u already exists\n", pItem->word[0], pItem->word[1]);
-			//CheckDupe(pItem);
+			printf("%u %u already exists\n", pItem->word[0], pItem->word[1]);
+//			CheckDupe(pItem);
 			return false;
 		}
 
@@ -969,7 +969,8 @@ bool SolverDynamic::CheckDupe(DynamicItem *pTest)
 	DynamicItem* p = pItemList;
 
 	if ((p != nullptr) && (pTest != nullptr)) {
-		while (p->pNext != nullptr) {
+		bool stay = true;
+		while (stay) {
 			uint64_t bcnt = 0;
 			bool issame = true;
 			while ((bcnt < sizeof(pTest->word)) && (issame == true)) {
@@ -979,9 +980,8 @@ bool SolverDynamic::CheckDupe(DynamicItem *pTest)
 			}
 			if (issame == true) return true;
 			
-			//if (memcmp(&(p->word), &(pTest->word), sizeof(p->word)) == 0) return true;
-
-			p = p->pNext;
+			if (p->pNext == nullptr) stay = false;
+			else p = p->pNext;
 		}
 	}
 
